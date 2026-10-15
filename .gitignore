@@ -12,3 +12,5 @@ src/w2
 src/sa
 raw_*.csv
 !data/raw_11_filtered.csv
+bin/
+data/hasse/

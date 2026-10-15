@@ -47,12 +47,12 @@ The 1/3–2/3 conjecture (Kislitsyn 1968, Fredman 1975, Linial 1984) says δ(P) 
 
 | n | δ (exact) | ≈ |
 |---|---|---|
-| 57 | 236624677/678311920 | |
+| 57 | 236624677/678311920 | 0.348843459805 |
 | 60 | 4948107449/14184320534 | 0.348843459730 |
 | 72 | 95562661439/273941387768 | 0.348843459609 |
 | 80 | 59165451235279/169604587978180 | 0.348843459606 |
-| 81 | 58094520507875/166534641555764 | |
-| 91 | 6304556942893505/18072739416224156 | |
+| 81 | 58094520507875/166534641555764 | 0.348843459626 |
+| 91 | 6304556942893505/18072739416224156 | 0.348843459627 |
 
    Below β from 53 elements. Best (n = 80) is ≈ 8.2×10⁻¹⁰ below the best value in Peczarski's table (50 elements, 1087457557/3117322468 ≈ 0.348843460426). All values remain above 0.348843, so Peczarski's gap conjecture is not contradicted.
 
@@ -69,18 +69,20 @@ The 1/3–2/3 conjecture (Kislitsyn 1968, Fredman 1975, Linial 1984) says δ(P) 
 - The improvement concerns only the width of the gap above 1/3. **Nothing about the 1/3–2/3 conjecture itself is resolved.**
 
 ## Reproduce
+Requires gcc, make, Python 3.10+ with `sympy mpmath matplotlib` (`pip install -r requirements.txt`). All scripts run with `data/` as working directory; the Makefile handles this.
 ```bash
-cd src
-gcc -O2 -o delta delta.c && gcc -O2 -o w2 w2.c && gcc -O2 -o sa sa.c -lm
-pip install sympy mpmath matplotlib
-# scripts read/write data files in the current directory:
-cd ../data && gunzip -k results.csv.gz
-PYTHONPATH=../src python ../src/run.py        # enumeration (needs ../src/delta; n=11 takes hours)
-PYTHONPATH=../src python ../src/check60.py    # independent exact check of P60
-PYTHONPATH=../src python ../src/check80.py
-PYTHONPATH=../src python ../src/pecz.py       # recompute Peczarski's table
+make            # builds bin/delta, bin/w2, bin/sa
+make test-small # recompute delta for all 2443 non-chain posets with n<=7 from data/results.csv.gz
+make check60    # independent exact check of P60 and P81 (writes data/P60.json, data/P81.json)
+make check80    # re-verify SA outputs in data/sa2, data/saout -> data/below_beta.json
+make pecz       # recompute Peczarski's table -> data/pecz_table.json
+make minima     # rebuild data/width2_minima.csv (n=4..20) from data/w2out + Hasse diagrams
+./bin/w2 <n> <p>                    # exhaustive width-2 search, chains of size p and n-p
+./bin/sa <p> <q> <iters> <seed> <T0> # simulated annealing
+# full enumeration needs nauty's genposetg:
+#   genposetg <n> | ./bin/delta > data/raw_<n>.csv  (n=2..11), then: make results
 ```
-Paths inside scripts may assume the original flat working directory; adjust if needed. Requires Python 3.10+, gcc. Full raw per-poset data for n = 9, 10, 11 was not included (size); `results.csv.gz` has one row per poset for n ≤ 11 and `raw_11_filtered.csv` the extreme n = 11 cases.
+All targets above were tested on the published layout and reproduce the committed data byte-for-byte. Raw per-poset files raw_2..raw_10 are not included (size); `results.csv.gz` has one row per poset for n <= 11 and `raw_11_filtered.csv` the extreme n = 11 cases.
 
 Figures: `figures/` (δ histogram, width-2 minimum vs n, SA best vs β, Hasse diagram of P60). Working notes (Chinese): `docs/report*.md`.
 
