@@ -1,0 +1,14 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pkl
+*.pdf
+.env
+*.key
+build/
+src/delta
+src/w2
+src/sa
+raw_*.csv
+!data/raw_11_filtered.csv
