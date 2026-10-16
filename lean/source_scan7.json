@@ -1,0 +1,10 @@
+{
+  "files_scanned": 60,
+  "forbidden_tokens": [
+    "sorry",
+    "admit",
+    "native_decide",
+    "axiom"
+  ],
+  "hits": []
+}

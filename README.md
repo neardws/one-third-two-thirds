@@ -104,3 +104,32 @@ Figures: `figures/` (δ histogram, width-2 minimum vs n, SA best vs β, Hasse di
 **复现。** 见上方 Reproduce 一节。详细中文报告在 `docs/`。
 
 License: MIT.
+
+---
+
+## 新结果：α / β / γ 族（2026-10）
+
+**重要说明：本仓库没有解决 1/3–2/3 猜想。** 这里的结果只是改进了平衡常数（balance constant）已知的上界构造：给出了 δ 比 Sah 2021 更小的宽度 2 偏序族。
+
+| 族 | 极限 δ | 规模 n | 状态 |
+|---|---|---|---|
+| Sah 2021（arXiv:1811.01500） | ≈ 0.3488434674 | — | 已发表 |
+| α（broken-rung ladder） | (115713181619 − 36√6697)/331705168868 ≈ 0.348843459593420 | 族 familyOrder m | **Lean 4 完整证明**（δ = N_m/E_m 对所有 m，且 δ → α） |
+| β（非对称端帽） | ≈ 0.34884345959285371889 | n = 248 + 20m | 计算机证书（顶端对为唯一最大者） |
+| γ（symleft） | β − γ ≈ 8.2479e-15 | n = 248 + 20m | 计算机证书（2056 个情形），尚未 Lean 化 |
+
+目录：
+- `lean/`：α 族 Lean 证明。主定理在 `OneThird/Balance7.lean`：`delta_eq_ratio`、`delta_tendsto`。附公理审计（`axioms7.log`、`audit7.json`）与报告（`REPORT7.md`、`BUILD_STATUS7.md`）。只依赖 `propext`、`Classical.choice`、`Quot.sound`，无 `sorry`/`native_decide`。
+- `certificates/alpha`、`certificates/beta`、`certificates/gamma_symleft`：Python 证书与检查脚本。
+- `docs/results/`：文献检索与 Track 2 笔记。
+
+构建（Lean 4 v4.35.0，Mathlib `56a00585`）：
+```sh
+cd lean
+lake exe cache get   # 可选，下载 Mathlib 缓存
+lake build
+```
+（`lakew` 是使用本地 elan 的包装脚本，可用 `ELAN_HOME` 指定。）
+
+### English summary
+This does **not** prove the 1/3–2/3 conjecture. It improves the known upper construction for the balance constant: width-2 families with limiting δ below Sah's 2021 value ≈0.3488434674. The α family (limit (115713181619−36√6697)/331705168868) is fully formalized in Lean 4 (v4.35.0, Mathlib 56a00585; `cd lean && lake build`); the β (n=248+20m) and γ/symleft families are computer-certified, with γ < β < α.
