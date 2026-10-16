@@ -1,0 +1,5 @@
+All exact rational checks passed: 2057
+Spectral tail covers m >= 16
+Full grids cover m=0,..., 15
+Unique maximizing original pair: (a_p,b_p), all m >= 0.
+Exact beta < alpha; all ordinary pairs < 1743/5000

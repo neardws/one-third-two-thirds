@@ -1,0 +1,16 @@
+{
+  "method": "compiled environment inventory by origin module; #print axioms for each declaration",
+  "inventory_count": 10311,
+  "audited_count": 10311,
+  "exit_code": 0,
+  "allowed_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "unexpected_axioms": [],
+  "missing_declarations": [],
+  "result6_inventory_missing": [],
+  "source_modules_missing": []
+}
+source scan: 60 files; 0 hits

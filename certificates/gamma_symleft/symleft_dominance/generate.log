@@ -1,0 +1,6 @@
+All exact rational checks passed: 2056
+Process CPU nanoseconds: 7396164000
+Spectral tail covers m >= 16
+Full grids cover m=0,..., 15
+Exactly two tied maximizing pairs: (a_1,b_1), (a_p,b_p), all m >= 0.
+Exact gamma < beta; all other cross-chain pairs < 1743/5000

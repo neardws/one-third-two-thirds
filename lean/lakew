@@ -1,0 +1,14 @@
+#!/bin/sh
+# Workspace-local Elan and Mathlib cache, for environments without a system Lean.
+set -eu
+# Keep numerical/formal checks within the project CPU budget.
+export OMP_NUM_THREADS=1
+export LEAN_NUM_THREADS=1
+export LAKE_NUM_THREADS=4
+onethird_lean_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+export ELAN_HOME="${ELAN_HOME:-$onethird_lean_dir/../.elan}"
+export MATHLIB_CACHE_DIR="${MATHLIB_CACHE_DIR:-$onethird_lean_dir/../.cache/mathlib}"
+export TMPDIR="$onethird_lean_dir/../.work"
+mkdir -p "$TMPDIR"
+cd "$onethird_lean_dir"
+exec "$ELAN_HOME/bin/lake" "$@"
