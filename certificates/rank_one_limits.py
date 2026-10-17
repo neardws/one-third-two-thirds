@@ -14,7 +14,8 @@ eigenvector y the script checks exactly, in Q(sqrt 6697):
   4. beta, gamma: the other endpoint (stored vector 'vother', the bottom pair (a_1,b_1)
      in ORIGINAL coordinates) has limit (y^T v_other)/(y^T v), which depends only on the
      far cap; its finite values for m = 0,1,2 agree with a direct exact computation
-     from the generating relations.
+     from the generating relations; for beta this limit is below beta and below the
+     endpoint cut 6976869191857/2e13 used by the beta certificate.
 """
 import sys
 from fractions import Fraction
@@ -73,6 +74,8 @@ def main():
             else:
                 g = L.LIMITS['beta']
                 assert L.positive(Quad(Fraction(g[0], g[2]), Fraction(-g[1], g[2])) - lim_o)   # bottom-end limit < beta
+                CUT = Fraction(6976869191857, 20000000000000)   # endpoint cut of the beta certificate
+                assert L.positive(Quad(CUT) - lim_o)                  # bottom-end limit < cut
             msg += f'; other endpoint limit = (y^T v_o)/(y^T v) = ({lim_o.a}) + ({lim_o.b}) sqrt6697'
         print(msg)
 
