@@ -53,7 +53,8 @@ python3 certificates/two_generator_check.py   # alpha 1006, beta 2056 (+endpoint
 python3 certificates/alpha/certify.py         # needs sympy
 python3 certificates/limits_and_cP.py         # unified transfer form, exact limits, c_P corollary; ~1 s
 python3 certificates/pdagger/verify_pdagger.py   # finite P-dagger (n=248), standalone; ~0.2 s
-python3 certificates/rank_one_limits.py       # rank-one limit formula (u_N x)/(u_E x); ~1 s
+python3 certificates/rank_one_limits.py       # rank-one limit formula, v_other, Chen-cap example; ~4 s
+python3 certificates/row_words.py             # compact row words of the paper vs JSON and structure.py
 ```
 
 All of the above (except `certify.py`, which needs `sympy`) are run by
@@ -78,7 +79,16 @@ eigenvector pair x, y of the period block for r = 82 + √6697, that the spectra
 A(A − sI)/(r(r − s)) equals x yᵀ/(yᵀx), and that the limit equals (u_N x)/(u_E x), so only
 the boundary vector at the target end survives. For β and γ it also checks the other
 endpoint (the bottom pair in original coordinates) against a direct computation for
-m = 0, 1, 2 and computes its limit (yᵀv_other)/(yᵀv).
+m = 0, 1, 2 and computes its limit (yᵀv_other)/(yᵀv). Here
+v_other = Φ(SUF without its last two rows) · (Φ(S_{p−1}) − masked(Φ(S_{p−1}), 0)) · Φ(S_p) e_{−1},
+and O_m = u_E A^m M A^m v_other counts the extensions with b_p before a_p in checker
+coordinates, i.e. b_1 before a_1 in original coordinates (checked against a direct count).
+It also evaluates Chen's family P(5k,5k) in the same framework: its row word is
+`a b O` followed by the α block, and with the same eigenvector x_α the formula gives Chen's
+limit (93 − √6697)/32.
+
+`certificates/row_words.py` checks the compact letter-code row words printed in the paper
+(Appendix A) against the stored certificates and against `structure.py`.
 
 ### Checker implementation details (no mathematical role)
 
