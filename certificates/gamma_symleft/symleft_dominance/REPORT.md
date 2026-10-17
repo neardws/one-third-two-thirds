@@ -112,7 +112,7 @@ Run from this directory, using only the Python standard library:
     OMP_NUM_THREADS=1 python3 dominance_cert.py
     OMP_NUM_THREADS=1 python3 dominance_cert.py --check
 
-The first command generates the certificate. The second recomputes it in memory and compares the canonical JSON bytes with the saved file; it does not overwrite the saved certificate. It raises on any byte mismatch. An explicit __debug__ guard rejects Python -O before assertion-based checks can be skipped. The executable sets OMP_NUM_THREADS=1 and lowers process priority to niceness at least 10.
+The first command generates the certificate. The second recomputes it in memory and compares the canonical JSON bytes with the saved file; it does not overwrite the saved certificate. It raises on any byte mismatch. An explicit __debug__ guard rejects Python -O before assertion-based checks can be skipped. The executable sets OMP_NUM_THREADS=1 and tries to lower process priority to niceness at least 10; if the operating system refuses, it prints a warning and continues (priority has no effect on the certificate).
 
 Proved here: the all-m symbolic band and row word, complete all-pairs dominance with exactly two tied endpoints, delta(P_m)->gamma, and gamma<beta. This is a paper argument backed by an executable exact-arithmetic certificate.
 

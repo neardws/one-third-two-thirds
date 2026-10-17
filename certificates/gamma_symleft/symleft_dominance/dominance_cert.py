@@ -202,7 +202,13 @@ def generate(K=8):
 
 def main():
     os.environ['OMP_NUM_THREADS']='1'
-    if os.getpriority(os.PRIO_PROCESS,0)<10:os.nice(10-os.getpriority(os.PRIO_PROCESS,0))
+    # Scheduling priority is irrelevant to the mathematics. Try to lower it
+    # (same behaviour as the beta checker); if that is not possible, only warn.
+    try:
+        cur=os.getpriority(os.PRIO_PROCESS,0)
+        if cur<10:os.nice(10-cur)
+    except (AttributeError,OSError) as exc:
+        print('warning: could not raise process niceness:',exc,file=sys.stderr)
     started=time.process_time_ns()
     result=generate();path=ROOT/'dominance_certificate.json'
     encoded=(json.dumps(result,indent=2)+'\n').encode('utf-8')

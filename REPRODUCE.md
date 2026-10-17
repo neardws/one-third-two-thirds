@@ -53,8 +53,10 @@ python3 certificates/two_generator_check.py   # alpha 1006, beta 2056 (+endpoint
 python3 certificates/alpha/certify.py         # needs sympy
 ```
 
-Both dominance checkers try to lower their own scheduling priority and only warn
-if they cannot; priority has no mathematical role. (At commit `6786282` the β
+Both dominance checkers try to lower their own scheduling priority to niceness 10
+and only print a warning if the operating system refuses (tested by simulating a
+refusal: both still regenerate and match their certificates); priority has no
+mathematical role. The γ checker also sets `OMP_NUM_THREADS=1` and prints its CPU time. (At commit `6786282` the β
 checker instead *asserted* niceness ≥ 10 and had to be started with `nice -n 10`.)
 The β checker compares the regenerated certificate with the stored one as parsed
 JSON; the γ checker compares the encoded bytes.
