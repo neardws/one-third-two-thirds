@@ -53,6 +53,7 @@ python3 certificates/two_generator_check.py   # alpha 1006, beta 2056 (+endpoint
 python3 certificates/alpha/certify.py         # needs sympy
 python3 certificates/limits_and_cP.py         # unified transfer form, exact limits, c_P corollary; ~1 s
 python3 certificates/pdagger/verify_pdagger.py   # finite P-dagger (n=248), standalone; ~0.2 s
+python3 certificates/rank_one_limits.py       # rank-one limit formula (u_N x)/(u_E x); ~1 s
 ```
 
 All of the above (except `certify.py`, which needs `sympy`) are run by
@@ -72,10 +73,26 @@ checks E_m and δ(P_m) for m = 0, 1, 2 against a direct computation from the gen
 relations, verifies each closed-form limit exactly in Q(√6697), and proves N_m/E_m < c_P for
 every m ≥ 0 (finite verification lemma with K = 1, plus m = 0).
 
-Both dominance checkers try to lower their own scheduling priority to niceness 10
-and only print a warning if the operating system refuses (tested by simulating a
-refusal: both still regenerate and match their certificates); priority has no
-mathematical role. The γ checker also sets `OMP_NUM_THREADS=1` and prints its CPU time. (At commit `6786282` the β
-checker instead *asserted* niceness ≥ 10 and had to be started with `nice -n 10`.)
-The β checker compares the regenerated certificate with the stored one as parsed
-JSON; the γ checker compares the encoded bytes.
+`certificates/rank_one_limits.py` checks, for each family, an explicit right/left
+eigenvector pair x, y of the period block for r = 82 + √6697, that the spectral projector
+A(A − sI)/(r(r − s)) equals x yᵀ/(yᵀx), and that the limit equals (u_N x)/(u_E x), so only
+the boundary vector at the target end survives. For β and γ it also checks the other
+endpoint (the bottom pair in original coordinates) against a direct computation for
+m = 0, 1, 2 and computes its limit (yᵀv_other)/(yᵀv).
+
+### Checker implementation details (no mathematical role)
+
+Both dominance checkers regenerate the certificate from scratch and compare it with the
+stored JSON. The β checker compares parsed JSON (`json.loads(...) == result`, which ignores
+whitespace); the γ checker compares the encoded bytes (`path.read_bytes() == encoded`). In
+both cases the regenerated mathematical content must agree exactly.
+
+Scheduling priority plays no mathematical role. At commit `6786282` the β script asserted a
+process niceness ≥ 10 (so it failed under default priority unless started with
+`nice -n 10`), and the γ script called `os.getpriority`/`os.nice` without a guard, which fails
+on systems that do not provide or permit these calls. Since the `repro-fixes` branch both
+`main()` functions use the same code: they try to raise the niceness to 10 and, on
+`AttributeError` or `OSError`, print a warning to standard error and continue. The γ script
+also sets `OMP_NUM_THREADS=1` and prints its process CPU time. With the niceness calls forced
+to fail, both checkers still regenerate and match their stored certificates (2057 and 2056
+cases).

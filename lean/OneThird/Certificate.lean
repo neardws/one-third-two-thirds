@@ -1,9 +1,11 @@
 /-
   Algebraic certificate for the broken-rung ladder family (n = 108 + 20 m).
   The concrete matrices come from certificate.json. All declarations are proved.
-  E and N are defined algebraically; identification with poset extension counts
-  is developed in Structure/Ideals/Transfer/PathDP; see REPORT2.md for the
-  remaining formal permutation-cardinality bijection.
+  E and N are defined algebraically here. Their identification with the actual
+  poset is proved elsewhere in this development: `RowCounts7.extension_card_eq_E`
+  (number of linear extensions = E m), `BottomCounts7.bottom_card_eq_N` (bottom
+  minority count = N m) and `Balance7.delta_eq_ratio` (delta m = N m / E m), all
+  for every m; see lean/REPORT7.md. No open bijection remains.
 -/
 module
 public import Mathlib.LinearAlgebra.Matrix.Notation
