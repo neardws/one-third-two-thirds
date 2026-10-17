@@ -24,6 +24,14 @@ The script checks:
      finite verification lemma with K = 1 (four tuples in {Lambda, A}^2, m >= 1) and a
      direct check at m = 0.  With all-pairs dominance (delta = N_m/E_m) this gives
      delta(P_m) < c_P for every member of each family.
+  5. approach from above: with Pi_r = (A^2 - sA)/(r(r-s)), Pi_s = (A^2 - rA)/(s(s-r)),
+     A = r Pi_r + s Pi_s and A Pi_r = r Pi_r, A Pi_s = s Pi_s, so A^m = r^m Pi_r + s^m Pi_s
+     for m >= 1 and, with lim = (a - b sqrt 6697)/c and u = u_N - lim u_E,
+         N_m - lim E_m = C 27^m + D s^(2m),
+     C = u (Pi_r M Pi_s + Pi_s M Pi_r) v,  D = u Pi_s M Pi_s v  (rs = 27; the r^(2m)
+     coefficient u Pi_r M Pi_r v vanishes by 3).  The script checks these identities, the
+     closed form for m = 0..4 against u A^m M A^m v (so m = 0 is included), and C, D > 0.
+     Since E_m > 0, N_m/E_m > lim for every m >= 0.
 """
 import json, sys, itertools
 from fractions import Fraction
@@ -50,6 +58,12 @@ def positive(x):
     if x.a >= 0 and x.b > 0: return True
     if x.a <= 0 and x.b < 0: return False
     return x.a * x.a > 6697 * x.b * x.b if x.a > 0 else 6697 * x.b * x.b > x.a * x.a
+
+
+def qpow(x, k):
+    out = Quad(1)
+    for _ in range(k): out = out * x
+    return out
 
 
 def chain(*ms):
@@ -117,9 +131,29 @@ def main():
             assert positive(Ez) and positive(CP[0] * Ez - CP[1] * Nz), (fam, 'c_P tuple')
         E0 = chain(uE, M, v)[0][0]; N0 = chain(uN, M, v)[0][0]
         assert E0 > 0 and CP[0] * E0 - CP[1] * N0 > 0
+        # 5. approach from above: N_m - lim E_m = C 27^m + D s^(2m) with C, D > 0
+        r = Quad(82, 1); lim = Quad(Fraction(a, c), Fraction(-b, c))
+        A2 = chain(A, A)
+        Pr = scale(matadd(A2, scale(A, -s)), 1 / (r * (r - s)))
+        Ps = scale(matadd(A2, scale(A, -r)), 1 / (s * (s - r)))
+        assert matadd(scale(Pr, r), scale(Ps, s)) == A
+        assert chain(A, Pr) == scale(Pr, r) and chain(A, Ps) == scale(Ps, s)
+        assert r * s == 27
+        u = [[uN[0][i] - lim * uE[0][i] for i in range(6)]]
+        f = lambda X, Y: chain(u, X, M, Y, v)[0][0]
+        assert f(Pr, Pr) == 0
+        C = f(Pr, Ps) + f(Ps, Pr); D = f(Ps, Ps)
+        assert positive(C) and positive(D), (fam, 'approach from above')
+        for m in range(5):
+            Am = power(A, m)
+            err = chain(uN, Am, M, Am, v)[0][0] - lim * chain(uE, Am, M, Am, v)[0][0]
+            assert err == C * 27 ** m + D * qpow(s * s, m), (fam, m)
+        if fam == 'alpha':
+            assert C == Quad(0, Fraction(727011288, 6697))   # C = 727011288/sqrt(6697)
         print(f'{fam}: |PRE|={len(PRE)} X={"".join("OLRT"[(-3 in t) + 2 * (2 in t)] for t in X)} '
               f'|MID|={len(MID)} |SUF|={len(SUF)}; cubic ok; m=0,1,2 match direct DP; '
-              f'exact limit ok; N_m/E_m < c_P for all m >= 0')
+              f'exact limit ok; N_m/E_m < c_P for all m >= 0; '
+              f'N_m - lim E_m = C 27^m + D s^(2m) with C, D > 0')
 
 
 if __name__ == '__main__':

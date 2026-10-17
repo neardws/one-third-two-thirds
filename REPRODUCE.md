@@ -76,7 +76,10 @@ script and needs uncommitted logs.)
 `certificates/limits_and_cP.py` builds u_E, u_N, M, v and A from each family's row word,
 checks E_m and δ(P_m) for m = 0, 1, 2 against a direct computation from the generating
 relations, verifies each closed-form limit exactly in Q(√6697), and proves N_m/E_m < c_P for
-every m ≥ 0 (finite verification lemma with K = 1, plus m = 0).
+every m ≥ 0 (finite verification lemma with K = 1, plus m = 0). It also proves that the
+approach is from above for every m ≥ 0: with Π_s = (A² − rA)/(s(s − r)) it checks
+A = rΠ_r + sΠ_s, the closed form N_m − lim·E_m = C·27^m + D·s^(2m) (m = 0..4) and C, D > 0
+(for α, C = 727011288/√6697).
 
 `certificates/rank_one_limits.py` checks, for each family, an explicit right/left
 eigenvector pair x, y of the period block for r = 82 + √6697, that the spectral projector
