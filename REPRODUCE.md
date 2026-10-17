@@ -18,7 +18,7 @@ Pinned versions:
 |---|---|
 | Lean toolchain | `leanprover/lean4:v4.35.0` (`lean/lean-toolchain`) |
 | Mathlib | `v4.35.0`, commit `56a005855ea17e0b0958f73ec801ae140b0a1679` (`lean/lake-manifest.json`) |
-| Lean sources | identical to commit `6786282` (this branch only adds tooling and documentation) |
+| Lean sources | Lean declarations unchanged from commit `6786282`; `lean/OneThird/Certificate.lean` differs only in its header comment (all other `.lean` files are byte-identical) |
 
 Expected result: `Build completed successfully (1799 jobs).`, then the audit reports
 10311 inventoried and 10311 audited declarations, allowed/observed axioms only
@@ -32,6 +32,10 @@ default `lakew` settings `LEAN_NUM_THREADS=1`, `LAKE_NUM_THREADS=4`):
 - Mathlib cache fetch/unpack: about 1.5 min (with a warm download cache);
 - `lake build` of the project: about 19 min (1150 s);
 - `generate_audit7.py`: about 30 s.
+
+This run (and the byte-identity statement below) used the Lean sources of commit `6786282`,
+i.e. before the header-comment edit of `lean/OneThird/Certificate.lean` in commit `66edbfe`;
+the edited file was then rechecked with `lake env lean`. No Lean declaration changed.
 
 The audit regenerates `lean/Inventory7.lean`, `lean/CheckAxioms.lean`,
 `lean/audit_inventory7.json`, `lean/audit_names7.txt`, `lean/axioms7.log`,
@@ -83,9 +87,13 @@ m = 0, 1, 2 and computes its limit (yᵀv_other)/(yᵀv). Here
 v_other = Φ(SUF without its last two rows) · (Φ(S_{p−1}) − masked(Φ(S_{p−1}), 0)) · Φ(S_p) e_{−1},
 and O_m = u_E A^m M A^m v_other counts the extensions with b_p before a_p in checker
 coordinates, i.e. b_1 before a_1 in original coordinates (checked against a direct count).
-It also evaluates Chen's family P(5k,5k) in the same framework: its row word is
-`a b O` followed by the α block, and with the same eigenvector x_α the formula gives Chen's
-limit (93 − √6697)/32.
+It also evaluates Chen's family P(5k,5k) (Definitions 7–8 of the EJC version) in the same
+framework: its full finite row word (rows 0..5k) is
+`a b O (L R L O O)^(k−1) L O z`, of length 5k+1, where `L O z` is the clipping at the top of
+the finite grid (checked for k = 1..8 from the local-mask rule and, independently, from the
+order ideals of the generated order). So its cap at the target end is the prefix `a b O`,
+followed by the α block, and with the same eigenvector x_α the formula gives Chen's limit
+(93 − √6697)/32.
 
 `certificates/row_words.py` checks the compact letter-code row words printed in the paper
 (Appendix A) against the stored certificates and against `structure.py`.
