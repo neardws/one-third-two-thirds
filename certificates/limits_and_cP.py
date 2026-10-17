@@ -12,6 +12,8 @@ where e_d is the basis vector of offset d, Phi(word) is the ordered product of t
 matrices, and Phi_N replaces the row-0 matrix by its part with crossing height >= 1
 (b_1 placed before a_1).  Then E_m = u_E A^m M A^m v and N_m = u_N A^m M A^m v.
 The script checks:
+  0. the rebuilt A, M, u_E, u_N, v equal the stored data (alpha: certificate.json;
+     beta, gamma: the 'matrices' field of dominance_certificate.json);
   1. A^3 - 164 A^2 + 27 A = 0;
   2. for m = 0, 1, 2: E_m and N_m/E_m agree with an independent exact computation of
      |L(P_m)| and delta(P_m) from the generating relations in ORIGINAL coordinates
@@ -72,7 +74,8 @@ def family(fam):
             'gamma': HERE / 'gamma_symleft' / 'symleft_dominance'}[fam]
     spec = importlib.util.spec_from_file_location(fam + '_family', path / 'family.py')
     mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-    w = json.loads((path / 'dominance_certificate.json').read_text())['structure']
+    cert = json.loads((path / 'dominance_certificate.json').read_text())
+    w = dict(cert['structure']); w['matrices'] = cert['matrices']
     return w, lambda m: (248 + 20 * m, set(mod.broken(m)))   # original coordinates
 
 
@@ -91,6 +94,9 @@ def main():
         v = chain(prod(SUF), basiscol(2))
         if fam == 'alpha':
             assert uE[0] == w['uE'] and uN[0] == w['uN'] and [x[0] for x in v] == w['v'] and M == w['M']
+        else:   # boundary data rebuilt from the row word must equal the stored 'matrices'
+            mt = w['matrices']
+            assert (A, M, uE, uN, v) == (mt['A'], mt['M'], mt['uE'], mt['uN'], mt['v']), fam
         # 2. independent exact check, original coordinates
         for m in (0, 1, 2):
             Am = power(A, m)
