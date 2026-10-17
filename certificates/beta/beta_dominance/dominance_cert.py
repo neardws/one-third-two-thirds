@@ -178,7 +178,13 @@ def generate(K=8):
         finite_checks=finite)
 
 def main():
-    assert os.getpriority(os.PRIO_PROCESS,0)>=10,'Inherit LaunchAgent niceness >=10'
+    # Scheduling priority is irrelevant to the mathematics. Try to lower it
+    # (as the gamma checker does); if that is not possible, only warn.
+    try:
+        cur=os.getpriority(os.PRIO_PROCESS,0)
+        if cur<10:os.nice(10-cur)
+    except (AttributeError,OSError) as exc:
+        print('warning: could not raise process niceness:',exc,file=sys.stderr)
     result=generate();path=ROOT/'dominance_certificate.json'
     if '--check' in sys.argv:
         assert json.loads(path.read_text())==result

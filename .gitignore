@@ -14,3 +14,11 @@ raw_*.csv
 !data/raw_11_filtered.csv
 bin/
 data/hasse/
+
+# Lean build artifacts and local toolchains (see REPRODUCE.md)
+.lake/
+lean/.lake/
+.elan/
+.cache/
+.work/
+lean/build_repro.log

@@ -131,5 +131,9 @@ lake build
 ```
 （`lakew` 是使用本地 elan 的包装脚本，可用 `ELAN_HOME` 指定。）
 
+完整的干净环境复现（构建 + 公理审计 + 证书检查）见 [REPRODUCE.md](REPRODUCE.md)，一键脚本 `scripts/reproduce_lean.sh`。
+
 ### English summary
 This does **not** prove the 1/3–2/3 conjecture. It improves the known upper construction for the balance constant: width-2 families with limiting δ below Sah's 2021 value ≈0.3488434674. The α family (limit (115713181619−36√6697)/331705168868) is fully formalized in Lean 4 (v4.35.0, Mathlib 56a00585; `cd lean && lake build`); the β (n=248+20m) and γ/symleft families are computer-certified, with γ < β < α.
+
+Clean-environment reproduction (build, full axiom audit, certificate checks): see [REPRODUCE.md](REPRODUCE.md) and `scripts/reproduce_lean.sh`.
