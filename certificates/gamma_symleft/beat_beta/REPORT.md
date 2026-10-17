@@ -1,3 +1,12 @@
+> **Historical record (search phase, 2026-10-15/16).** This report and the scripts in this
+> directory document the search that produced P† and the symmetric-cap ("symleft") family.
+> They are not part of the final verification: `certify_candidates.py` imports `w2lib` relative
+> to a `src/` directory and reads search logs (`logs/exact_local_248.json`,
+> `logs/broad_best.json`) that are not committed, and it compares only against β.
+> The statements marked "uncertified" below were settled later:
+> the γ family is certified by `../symleft_dominance/dominance_cert.py` (all-pairs dominance for
+> every m), and P† is verified standalone by `../../pdagger/verify_pdagger.py`.
+
 # Search for width-2 ladder families below beta
 
 Status: stopped at the user's final-step request; no additional searches were launched after that request. **Finite improvements below beta are exactly certified. A full growing-family balance-ratio limit below beta has NOT been certified; beating beta in the limit remains open.**
