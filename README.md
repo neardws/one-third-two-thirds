@@ -97,7 +97,7 @@ The 1/3–2/3 conjecture (Kislitsyn 1968, Fredman 1975, Linial 1984) says δ(P) 
 
 ## Novelty statement (honest)
 - The class of posets (broken ladders) is Peczarski's; nothing structural here is new.
-- Our values are lower than every value in Peczarski's 2017/2019 table. We have **not** checked work published after it, so this is only a candidate improvement.
+- Our values are lower than every value in Peczarski's 2017/2019 table. The literature check for the paper (including Chen 2018 and Sah 2021) found no smaller published exact value; the paper's families improve these further (see the Paper section above).
 - The improvement concerns only the width of the gap above 1/3. **Nothing about the 1/3–2/3 conjecture itself is resolved.**
 
 ## Reproduce
@@ -131,7 +131,7 @@ Figures: `figures/` (δ histogram, width-2 minimum vs n, SA best vs β, Hasse di
 2. 宽度 2 不可拆层偏序的最小 δ 见上表，n ≤ 20 的最小值是 n=17 的 1304/3737。
 3. 找到一批 δ 低于 Sah β ≈ 0.348843467 的缺横档梯子（53 元起），最好的 80 元例子 δ ≈ 0.348843459606，比 Peczarski 表中最好值（50 元，≈ 0.348843460426）低约 8.2×10⁻¹⁰。
 
-**新颖性说明。** 这类偏序（缺横档梯子）是 Peczarski 定义的，结构上没有新东西；数值低于他论文表中的所有值，但尚未核对 2017 年之后的文献，只能算候选结果；结果仍高于 0.348843，没有推翻他的空隙猜想。**1/3–2/3 猜想本身没有任何进展。**
+**新颖性说明。** 这类偏序（缺横档梯子）是 Peczarski 定义的，结构上没有新东西；数值低于他论文表中的所有值；论文中核对了此后的文献（包括 Chen 2018、Sah 2021），没有发现更小的已发表精确值，论文中的族又进一步改进了这些数值（见最上方论文一节）；结果仍高于 0.348843，没有推翻他的空隙猜想。**1/3–2/3 猜想本身没有任何进展。**
 
 **复现。** 见上方 Reproduce 一节。详细中文报告在 `docs/`。
 
