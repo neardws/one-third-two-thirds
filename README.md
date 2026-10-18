@@ -1,5 +1,37 @@
 # one-third-two-thirds
 
+## 📄 Paper
+
+**Neil Xu, *Small Balance Constants for Width-Two Posets*, October 2026.**
+[PDF](paper/note.pdf) · [LaTeX source](paper/note.tex) · [bibliography](paper/refs.bib) · [reproduction guide](REPRODUCE.md)
+
+We construct an explicit indecomposable family $(P_m)_{m\ge 0}$ of width-two broken-rung ladders on $108+20m$ elements (period-5 core, new end caps) with
+
+$$\delta(P_m)=\frac{N_m}{E_m}\longrightarrow \alpha=\frac{115713181619-36\sqrt{6697}}{331705168868}\approx 0.348843459593420 .$$
+
+Changing the caps gives two further families with limits $\gamma<\beta<\alpha$, and a finite 248-element example $P^\dagger$ with $\delta(P^\dagger)<\gamma$. All of them lie strictly below the smallest previously published exact value known to us ($c_P\approx 0.3488434604$, Peczarski's 50-element ladder), hence below Sah's constant.
+
+- **Lean 4 formalization** (`lean/`, Lean v4.35.0 + Mathlib `56a00585`): $\delta(P_m)=N_m/E_m$ for every $m$, starting from the generating relations of $P_m$, and $\delta(P_m)\to\alpha$. Standard axioms only, no `sorry` / `native_decide`.
+- **Exact certificates** (`certificates/`): the $\beta$ and $\gamma$ families (rational arithmetic, not formalized).
+- The paper's computations refer to commit `1ff4fad`; see [REPRODUCE.md](REPRODUCE.md).
+
+These are upper bounds on the balance constant of width-two posets. **They say nothing new about the 1/3–2/3 conjecture itself.**
+
+**论文：** Neil Xu，《Small Balance Constants for Width-Two Posets》，2026 年 10 月，[PDF](paper/note.pdf)。构造了宽度 2 偏序族，平衡常数极限 α ≈ 0.348843459593420，另有 β、γ 两族和一个 248 元例子，都低于此前已发表的最小精确值；α 族用 Lean 4 完整形式化。结果只是平衡常数上界的改进，**不涉及 1/3–2/3 猜想本身的证明。**
+
+```bibtex
+@misc{Xu2026balance,
+  author = {Neil Xu},
+  title  = {Small Balance Constants for Width-Two Posets},
+  year   = {2026},
+  note   = {Preprint, https://github.com/neardws/one-third-two-thirds}
+}
+```
+
+---
+
+## Earlier computational experiments
+
 Computational experiments on the **1/3–2/3 conjecture** for finite posets (exhaustive verification for small n, and the "gap above 1/3" for width-2 posets).
 关于有限偏序集 **1/3–2/3 猜想** 的计算实验（小规模穷举验证，以及宽度 2 偏序中 1/3 上方“空隙”的研究）。中文说明见下方。
 
